@@ -55,4 +55,6 @@ public class MemberController {
     public Member getLoginedMember() {
         return loginedMember;
     }
+
+
 }

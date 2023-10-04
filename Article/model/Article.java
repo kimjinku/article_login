@@ -22,6 +22,7 @@ public class Article {
         this.content = content;
         this.memberId = memberId;
         this.regDate = regDate;
+
     }
 
     public int getMemberId() {

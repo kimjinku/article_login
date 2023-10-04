@@ -12,9 +12,12 @@ public class ArticleRepository {
     private int lastArticleId = 4;
 
     public ArticleRepository() {
-        Article a1 = new Article(1, "안녕하세요 반갑습니다. 자바 공부중이에요.", "냉무", 1, Util.getCurrentDate());
-        Article a2 = new Article(2, "자바 질문좀 할게요~.", "냉무", 2, Util.getCurrentDate());
-        Article a3 = new Article(3, "정처기 따야되나요?", "냉무", 1, Util.getCurrentDate());
+        Article a1 = new Article(2, "안녕하세요 반갑습니다. 자바 공부중이에요.", "냉무", 1, Util.getCurrentDate());
+        a1.setHit(10);
+        Article a2 = new Article(3, "자바 질문좀 할게요~.", "냉무", 2, Util.getCurrentDate());
+        a2.setHit(102);
+        Article a3 = new Article(1, "정처기 따야되나요?", "냉무", 1, Util.getCurrentDate());
+        a3.setHit(55);
 
         articles.add(a1);
         articles.add(a2);
