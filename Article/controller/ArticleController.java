@@ -258,6 +258,7 @@ public class ArticleController {
         System.out.println("페이징 이동 기능을 선택 가능. (1 : 이전, 2 : 다음, 3 : 선택, 4 : 뒤로가기)");
         getParamInt(scan.nextLine(),-1);
     }
+
 }
 
 class Sort { //오름차순인지 내림차순인지

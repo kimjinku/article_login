@@ -73,4 +73,7 @@ public class ArticleRepository {
         article.setTitle(title);
         article.setContent(content);
     }
+    public int  getTotalArticleCount(){
+        return articles.size();
+    }
 }
