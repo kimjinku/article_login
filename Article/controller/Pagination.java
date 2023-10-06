@@ -2,26 +2,30 @@ package Article.controller;
 
 import Article.model.ArticleRepository;
 
+
 public class Pagination {
     private int currentPageNo = 1; //현재 페이지 번호
     private int itemsCountPerPage = 3; // 한번에 보여줄 게시물의 수
     private int pageCntPerBlock = 5; // 한번에 보여줄 게시물 블록의 수
 
-    private int totalCount = 0; // 일단 기본값. 게시물의 총 수량
+    private int totalCount = 0; // 일단 기본값. 게시물의 총 수량?
 
-    public int getEndPageNo(){
-        return getStartPageNo() +pageCntPerBlock -1;
+    private ArticleRepository articleRepository;
+
+    public int getEndPageNo() {
+        return getStartPageNo() + pageCntPerBlock - 1;
     }
 
-    public int getStartPageNo(){
-        return  (getPageBlockNo()-1)*pageCntPerBlock+1;
+    public int getStartPageNo() {
+        return (getPageBlockNo() - 1) * pageCntPerBlock + 1;
     }
 
-    public int getPageBlockNo(){
-        return  (int)(Math.ceil((double)currentPageNo/pageCntPerBlock));
+    public int getPageBlockNo() {
+        return (int) (Math.ceil((double) currentPageNo / pageCntPerBlock));
     }
-    public double getPageCount(){
-        return  (int)(Math.ceil((double)totalCount/itemsCountPerPage));
+
+    public double getPageCount() {
+        return  Math.ceil((double) totalCount / itemsCountPerPage);
     }
 
 
@@ -34,7 +38,7 @@ public class Pagination {
     }
 
     public int getEndIndex() {
-        int endIndex = getStartIndex() + 3;
+        int endIndex = getStartIndex() + itemsCountPerPage;
         if (endIndex >= totalCount) {
             endIndex = totalCount;
         }
@@ -42,11 +46,17 @@ public class Pagination {
 
     }
 
-    private ArticleRepository articleRepository;
 
-    public void pagination() {
+
+
+    public Pagination() {
         articleRepository = new ArticleRepository();
         this.totalCount = articleRepository.getTotalArticleCount();
+
+    }
+
+    public int getCurrentPageNo() {
+        return currentPageNo;
 
     }
 }

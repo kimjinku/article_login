@@ -1,5 +1,6 @@
 package Article.view;
 
+import Article.controller.Pagination;
 import Article.model.Article;
 import Article.model.Like;
 import Article.model.Member;
@@ -36,7 +37,7 @@ public class ArticleView {
 
     }
 
-    public void printArticles(ArrayList<Article> list) {
+    public void printArticles(ArrayList<Article> list, Pagination pagination) {
         System.out.println("==================");
         for (int i = 0; i < list.size(); i++) {
 
@@ -49,5 +50,14 @@ public class ArticleView {
 
             System.out.println("==================");
         }
+        for(int i = pagination.getStartPageNo();i<=pagination.getEndPageNo();i++){
+            if(i== pagination.getCurrentPageNo()){
+                System.out.print("["+i+"]"+ " ");
+            }else {
+                System.out.print(i+" ");
+            }
+
+        }
+        System.out.println();
     }
 }

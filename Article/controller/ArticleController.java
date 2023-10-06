@@ -18,6 +18,8 @@ public class ArticleController {
 
     private Member loginedMember = null;
 
+    private Pagination pagination = new Pagination();
+
     public void add() {
 
         if (loginedMember == null) {
@@ -36,8 +38,9 @@ public class ArticleController {
     }
 
     public void list() {
-        ArrayList<Article> articles = articleRepository.findAllArticles();
-        articleView.printArticles(articles);
+        //ArrayList<Article> articles = articleRepository.findAllArticles();
+        ArrayList<Article> pagedArticles = articleRepository.findPagedArticles(pagination);
+        articleView.printArticles(pagedArticles, pagination);
     }
 
     public void update() {
@@ -206,7 +209,7 @@ public class ArticleController {
         System.out.print("검색 키워드를 입력해주세요 : ");
         String keyword = scan.nextLine();
         ArrayList<Article> searchedArticles = articleRepository.findByTitle(keyword);
-        articleView.printArticles(searchedArticles);
+        articleView.printArticles(searchedArticles, pagination);
     }
 
     public boolean isNotLogin() {
@@ -245,67 +248,18 @@ public class ArticleController {
         int sortTarget = getParamInt(scan.nextLine(), -1);
         System.out.print("정렬 방법을 선택해주세요. (1. 오름차순,  2. 내림차순) : ");
         int sortType = getParamInt(scan.nextLine(), -1);
-        ArrayList<Article> allArticles = articleRepository.findAllArticles();
-        Collections.sort(allArticles,new SortFactory().getSort(sortTarget).setDirection(sortType));
-
-        articleView.printArticles(allArticles);
+        articleRepository.sortArticles(sortTarget, sortType);
+        ArrayList<Article> pagedArticles = articleRepository.findPagedArticles(pagination);
+        articleView.printArticles(pagedArticles, pagination);
     }//
 
     public void page() {
         ArrayList<Article> articles = articleRepository.findAllArticles();
-        articleView.printArticles(articles);
+        articleView.printArticles(articles, pagination);
         System.out.println("1,2,3,4,5");
         System.out.println("페이징 이동 기능을 선택 가능. (1 : 이전, 2 : 다음, 3 : 선택, 4 : 뒤로가기)");
-        getParamInt(scan.nextLine(),-1);
+        getParamInt(scan.nextLine(), -1);
     }
 
 }
 
-class Sort { //오름차순인지 내림차순인지
-    protected int order = 1;
-
-    Comparator<Article> setDirection(int direction) { //생성자,
-        if (direction == 2) {
-            order = -1;
-        }
-
-        return (Comparator<Article>)this;
-    }
-
-}
-
-class SortFactory { //번호인지 조회수인지
-    public Sort getSort(int sortTarget){
-        if (sortTarget==1){ //sortTarget이 번호
-            return new SortById();
-        } else{
-            return new SortByHit();
-
-        }
-    }
-}
-
-class SortById extends Sort implements Comparator<Article> { //리턴이 1 이면 바꾸고 -1이면 안바꾼다
-
-
-    @Override
-    public int compare(Article o1, Article o2) {
-        if (o1.getId() > o2.getId()) {
-            return order;
-        }
-        return -1 * order;
-    }
-}
-
-class SortByHit extends Sort implements Comparator<Article> {
-
-
-    @Override
-    public int compare(Article o1, Article o2) {
-        if (o1.getHit() > o2.getHit()) {
-            return order;
-        }
-        return -1 * order;
-    }
-
-}

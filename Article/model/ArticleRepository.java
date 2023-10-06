@@ -1,8 +1,12 @@
 package Article.model;
 
+import Article.controller.Pagination;
+
 import util.Util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 // Dao
 // Repository
@@ -73,7 +77,68 @@ public class ArticleRepository {
         article.setTitle(title);
         article.setContent(content);
     }
-    public int  getTotalArticleCount(){
+
+    public int getTotalArticleCount() {
         return articles.size();
     }
+
+    public ArrayList<Article> findPagedArticles(Pagination pagination) {
+        ArrayList<Article> pagedArticles = new ArrayList<>();
+        for (int i = pagination.getStartIndex(); i < pagination.getEndIndex(); i++) {
+            pagedArticles.add(articles.get(i));
+
+        }return pagedArticles;
+    }
+    public void sortArticles(int sortTarget,int sortType){
+
+        Collections.sort(articles,new SortFactory().getSort(sortTarget).setDirection(sortType));
+    }
+}
+class Sort { //오름차순인지 내림차순인지
+    protected int order = 1;
+
+    Comparator<Article> setDirection(int direction) { //생성자,
+        if (direction == 2) {
+            order = -1;
+        }
+
+        return (Comparator<Article>)this;
+    }
+
+}
+
+class SortFactory { //번호인지 조회수인지
+    public Sort getSort(int sortTarget){
+        if (sortTarget==1){ //sortTarget이 번호
+            return new SortById();
+        } else{
+            return new SortByHit();
+
+        }
+    }
+}
+
+class SortById extends Sort implements Comparator<Article> { //리턴이 1 이면 바꾸고 -1이면 안바꾼다
+
+
+    @Override
+    public int compare(Article o1, Article o2) {
+        if (o1.getId() > o2.getId()) {
+            return order;
+        }
+        return -1 * order;
+    }
+}
+
+class SortByHit extends Sort implements Comparator<Article> {
+
+
+    @Override
+    public int compare(Article o1, Article o2) {
+        if (o1.getHit() > o2.getHit()) {
+            return order;
+        }
+        return -1 * order;
+    }
+
 }
