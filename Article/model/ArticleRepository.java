@@ -28,6 +28,11 @@ public class ArticleRepository {
             articles.add(a1);
             articles.add(a2);
             articles.add(a3);
+            for(int i =4;i<100;i++){
+                Article a = new Article(i,"제목"+i,"내용"+i,2,Util.getCurrentDate());
+                articles.add(a);
+
+            }
         }
     }
 

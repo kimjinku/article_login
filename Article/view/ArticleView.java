@@ -50,6 +50,10 @@ public class ArticleView {
 
             System.out.println("==================");
         }
+
+        if(pagination.hasPrevBlock())
+            System.out.print("<<");
+
         for(int i = pagination.getStartPageNo();i<=pagination.getEndPageNo();i++){
             if(i== pagination.getCurrentPageNo()){
                 System.out.print("["+i+"]"+ " ");
@@ -58,6 +62,11 @@ public class ArticleView {
             }
 
         }
+
+        if(pagination.hasNext())
+            System.out.print(">>");
+
+
         System.out.println();
     }
 }

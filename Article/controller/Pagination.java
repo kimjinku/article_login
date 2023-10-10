@@ -14,8 +14,8 @@ public class Pagination {
 
     public int getEndPageNo() {
         int endPageNo = getStartPageNo() + pageCntPerBlock - 1;
-        if(endPageNo>=getLastPageNo()){
-            endPageNo=getLastPageNo();
+        if (endPageNo >= getLastPageNo()) {
+            endPageNo = getLastPageNo();
         }
         return endPageNo;
     }
@@ -27,10 +27,11 @@ public class Pagination {
     public int getPageBlockNo() {
         return (int) (Math.ceil((double) currentPageNo / pageCntPerBlock));
     }
+    // 현재 내가 보고있는 페이지 넘버
 
     public int getLastPageNo() {
 
-        return  (int)Math.ceil((double) getTotalCount() / itemsCountPerPage);
+        return (int) Math.ceil((double) getTotalCount() / itemsCountPerPage);
 
     }
 
@@ -53,8 +54,6 @@ public class Pagination {
     }
 
 
-
-
     public Pagination() {
         articleRepository = new ArticleRepository();
         this.totalCount = getTotalCount();
@@ -65,7 +64,49 @@ public class Pagination {
         return currentPageNo;
 
     }
-    public int getTotalCount(){
-        return  articleRepository.getTotalArticleCount();
+
+    public int getTotalCount() {
+        return articleRepository.getTotalArticleCount();
+    }
+
+    public int getLastPageBlockNumber() {
+        return (int) Math.ceil((double) getLastPageNo() / pageCntPerBlock);
+    }
+
+    public boolean hasNext() {
+        if (getPageBlockNo() < getLastPageNo()) {
+            return true;
+
+        }
+        return false;
+
+    }
+    public boolean hasPrevBlock() {
+        if (getPageBlockNo() > 1) {
+            return true;
+
+        }
+        return false;
+
+    }
+
+    public void prevPage() {
+        currentPageNo--;
+        if(currentPageNo<1)
+            currentPageNo=1;
+
+    }
+    public void nextPage() {
+        currentPageNo++;
+        if(currentPageNo>getLastPageNo())
+            currentPageNo=getLastPageNo();
+
+    }
+
+    public void selectPage(int pageNo) {
+        if(pageNo>=1 || pageNo <= getLastPageNo()){
+            currentPageNo =pageNo;
+
+        }
     }
 }
