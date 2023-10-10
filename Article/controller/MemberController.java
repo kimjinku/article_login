@@ -57,4 +57,19 @@ public class MemberController {
     }
 
 
+    public void logout() {
+        if(isNotLogin()){
+        }else{
+            loginedMember=null;
+            System.out.println("로그아웃이 완료되었습니다");
+        }
+    }
+    public boolean isNotLogin() {
+        if (loginedMember == null) {
+            System.out.println("로그인을 해주세요");
+            return true;
+
+        }
+        return false;
+    }
 }

@@ -43,6 +43,8 @@ public class BoardApp {
                 articleController.sort();
             } else if (command.equals("page")){
                 articleController.page();
+            } else if (command.equals("logout")){
+                memberController.logout();
             }
         }
     }
